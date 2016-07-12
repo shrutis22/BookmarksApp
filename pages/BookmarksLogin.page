@@ -1,0 +1,65 @@
+<apex:page controller="BookmarksController"  sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" cache="FALSE">
+    <html>
+        <head>
+            <title>
+                Shruti's Bookmarks Login
+            </title>
+            <link type="text/css" rel="stylesheet" href="{!$Resource.CeruleanBootstrap}" />
+            <link type="text/css" rel="stylesheet" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" />
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+            
+        </head>
+        <body>
+            <nav class="navbar navbar-default navbar-static-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="http://shrutis-developer-edition.ap2.force.com/"><i class="fa fa-bookmark"></i>&nbsp;Shruti's Bookmarks</a> 
+                    </div>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-sign-in"></i>&nbsp;Login To Shruti's Bookmarks</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <h4>Username</h4>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="un" placeholder="Username"></input>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <h4>Password</h4>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="password" class="form-control" id="pw" placeholder="Password"></input>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button class="btn btn-primary" id="login"><i class="fa fa-unlock"></i>&nbsp;Sign In</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </div>
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+            <script type="text/javascript" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="{!$Resource.BookmarksJS}"></script>
+            
+        </body>
+    </html>
+</apex:page>
