@@ -15,3 +15,9 @@ Its created using the following technologies:
 * Google APIs
 
 The graphical Interface was designed using Visualforce, HTML, CSS and for the functionality we used Vannila JavaScript and jQuery.
+
+Do you want to try this out, then simply click this button:
+<a href="https://githubsfdeploy.herokuapp.com?owner=shrutis22&repo=https://github.com/shrutis22/BookmarksApp">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
