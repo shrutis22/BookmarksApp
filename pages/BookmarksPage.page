@@ -1,0 +1,188 @@
+<apex:page controller="BookmarksController" action="{!authenticate}" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" cache="FALSE">
+    <html>
+        <head>
+            <title>
+                My Favourite Pages
+            </title>
+            <link type="text/css" rel="stylesheet" href="{!$Resource.CeruleanBootstrap}" />
+            <link type="text/css" rel="stylesheet" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" />
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+            
+            <style>
+                a {
+                    cursor: pointer;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="modal fade" id="newBookmarkModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title"><i class="fa fa-plus"></i>&nbsp;New Bookmark</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Name<span class="text-danger">*</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="name">
+                                    </input>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Category<span class="text-danger">*</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <select class="form-control" id="category">
+                                        <option value="">Select</option>
+                                        <option value="Salesforce">Salesforce</option>
+                                        <option value="Tutorials">Tutorials</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="Articles">Articles</option>
+                                        <option value="Shopping">Shopping</option>
+                                        <option value="Entertainment">Entertainment</option>
+                                        <option value="Misc">Misc</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    URL<span class="text-danger">*</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="url"></input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                <i class="fa fa-times"></i>&nbsp;Close
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="saveBookmark()">
+                                <i class="fa fa-floppy-o"></i>&nbsp;Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+            
+            <div class="modal fade" id="editBookmarkModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title"><i class="fa fa-pencil"></i>&nbsp;Edit Bookmark</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Name<span class="text-danger">*</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="nameE">
+                                    </input>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    Category<span class="text-danger">*</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <select class="form-control" id="categoryE">
+                                        <option value="">Select</option>
+                                        <option value="Salesforce">Salesforce</option>
+                                        <option value="Tutorials">Tutorials</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="Articles">Articles</option>
+                                        <option value="Shopping">Shopping</option>
+                                        <option value="Misc">Misc</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    URL<span class="text-danger">*</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="urlE"></input>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                <i class="fa fa-times"></i>&nbsp;Close
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="editBookmark()" >
+                                <i class="fa fa-floppy-o"></i>&nbsp;Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--edit modal finished-->
+            
+            <nav class="navbar navbar-default navbar-static-top">
+                <div class="container-fluid">
+                    <div class="navbar-header"> 
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bookmarks-navbar-collapse" aria-expanded="false"> 
+                            <span class="sr-only">Toggle navigation</span> 
+                            <span class="icon-bar"></span> <span class="icon-bar"></span>
+                            <span class="icon-bar"></span> 
+                        </button> 
+                        <a class="navbar-brand" href="http://shrutis-developer-edition.ap2.force.com/"><i class="fa fa-bookmark"></i>&nbsp;Shruti's Bookmarks</a> 
+                    </div>
+                    <div class="collapse navbar-collapse navbar-right" id="bookmarks-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#" data-toggle="modal" data-target="#newBookmarkModal"><i class="fa fa-plus fa-2x"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="container-fluid">
+                <table class="table table-striped" id="bookmarkstable">
+                    <thead>
+                        <tr>
+                            <th><h4>Name</h4></th>
+                            <th><h4>Category</h4></th>
+                            <th><h4>URL</h4></th>
+                            <th><h4>Short URL</h4></th>
+                            <th class="text-center"><h4>Action</h4></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:repeat value="{!bookmarks}" var="bm">
+                            <tr>
+                                <td>{!bm.Name}</td>
+                                <td>{!bm.Category__c}</td>
+                                <td><a onclick="window.open('{!bm.URL__c}', '_blank');">{!bm.URL__c}</a></td>
+                                <td><a onclick="window.open('{!bm.Short_URL__c}', '_blank');">{!bm.Short_URL__c}</a></td>
+                                <td class="text-center">
+                                    <a onclick="shortenUrl( '{!bm.URL__c}' , '{!bm.id}' )"><i class="fa fa-link"></i></a>|
+                                    <a data-toggle="modal" data-target="#editBookmarkModal" onclick="loadBookmarkDetails( '{!bm.Name}' , '{!bm.Category__c}' , '{!bm.URL__c}' , '{!bm.Id}' )"><i class="fa fa-pencil"></i></a>|
+                                    <a onclick="deleteBookmark( '{!bm.id}' )"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </div>
+            
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+            <script type="text/javascript" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="{!$Resource.BookmarksJS}"></script>
+            
+        </body>
+    </html>
+</apex:page>
